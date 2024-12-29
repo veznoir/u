@@ -55,6 +55,8 @@
     const girlfriendQuestion = document.getElementById('girlfriendQuestion');
     const responseButtons = document.getElementById('responseButtons');
 
+    const googleFormLink = "https://docs.google.com/forms/d/e/1FAIpQLScBDe9Qm3l76yVJmFBiK6TBwwrrTg1pT0fE871df2FgPOpvww/viewform?usp=header";
+
     let noClickCount = 0;
     let buttonHeight = 48; // Initial button height in pixels
     let buttonWidth = 80; // Initial button width in pixels
@@ -93,10 +95,20 @@
       girlfriendQuestion.textContent = "Yayyy!! :3"; // Update the question text
       responseButtons.style.display = 'none'; // Hide buttons
       confetti(); // Show confetti animation
+
+      // Save the response to localStorage (hidden from the user)
+      localStorage.setItem('response', 'Yes');
+
+      // Redirect to the Google Form after a slight delay
+      setTimeout(() => {
+        window.location.href = googleFormLink;
+      }, 1000);
     });
 
-    // Hide saved response display entirely
-    window.localStorage.clear(); // Clear any saved responses for this interaction
+    noButton.addEventListener('click', () => {
+      // Save the response to localStorage (hidden from the user)
+      localStorage.setItem('response', 'No');
+    });
   </script>
 </body>
 </html>
