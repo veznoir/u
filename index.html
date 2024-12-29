@@ -43,8 +43,6 @@
           No
         </button>
       </div>
-      <!-- Display saved response -->
-      <div id="savedResponseDisplay" class="mt-4 text-lg text-gray-700"></div>
     </div>
   </div>
 
@@ -56,37 +54,49 @@
     const imageDisplay = document.getElementById('imageDisplay');
     const girlfriendQuestion = document.getElementById('girlfriendQuestion');
     const responseButtons = document.getElementById('responseButtons');
-    const savedResponseDisplay = document.getElementById('savedResponseDisplay');
 
-    const googleFormLink = "https://docs.google.com/forms/d/e/1FAIpQLScBDe9Qm3l76yVJmFBiK6TBwwrrTg1pT0fE871df2FgPOpvww/viewform?usp=header";
+    let noClickCount = 0;
+    let buttonHeight = 48; // Initial button height in pixels
+    let buttonWidth = 80; // Initial button width in pixels
+    let fontSize = 20; // Initial font size in pixels
 
-    yesButton.addEventListener('click', () => {
-      imageDisplay.src = 'https://github.com/CodeKageHQ/Ask-out-your-Valentine/raw/main/images/image7.gif'; // Change to image7.gif
-      girlfriendQuestion.textContent = "Yayyy!! :3"; // Change the question text
-      responseButtons.style.display = 'none'; // Hide both buttons
-      confetti(); // Trigger confetti animation
-
-      // Save the response to localStorage
-      localStorage.setItem('response', 'Yes');
-      savedResponseDisplay.textContent = "Saved response: Yes"; // Update displayed response
-
-      // Redirect to the Google Form
-      window.location.href = googleFormLink;
-    });
+    const imagePaths = [
+      "https://i.imgur.com/GF2k9mn.gif",
+      "https://i.imgur.com/R2C6v9Z.gif",
+      "https://i.imgur.com/mwD0XMP.gif",
+      "https://i.imgur.com/ZOS3lTx.gif",
+      "https://i.imgur.com/RE0Oj8p.gif",
+      "https://i.imgur.com/nA3tmBO.gif",
+      "https://github.com/CodeKageHQ/Ask-out-your-Valentine/raw/main/images/image7.gif"
+    ];
 
     noButton.addEventListener('click', () => {
-      // Save the response to localStorage
-      localStorage.setItem('response', 'No');
-      savedResponseDisplay.textContent = "Saved response: No"; // Update displayed response
-    });
+      if (noClickCount < imagePaths.length - 1) {
+        noClickCount++;
+        imageDisplay.src = imagePaths[noClickCount]; // Update image
+        buttonHeight += 20; // Increase height
+        buttonWidth += 20; // Increase width
+        fontSize += 5; // Increase font size
 
-    // Display saved response on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      const savedResponse = localStorage.getItem('response');
-      if (savedResponse) {
-        savedResponseDisplay.textContent = `Saved response: ${savedResponse}`;
+        yesButton.style.height = `${buttonHeight}px`;
+        yesButton.style.width = `${buttonWidth}px`;
+        yesButton.style.fontSize = `${fontSize}px`;
+
+        // Update "No" button text with playful phrases
+        const phrases = ["No", "Are you sure?", "Pookie please?", "Don't do this :(", "You're breaking my heart", "I'm gonna cry..."];
+        noButton.textContent = phrases[noClickCount] || "Please reconsider!";
       }
     });
+
+    yesButton.addEventListener('click', () => {
+      imageDisplay.src = imagePaths[imagePaths.length - 1]; // Show the final celebratory image
+      girlfriendQuestion.textContent = "Yayyy!! :3"; // Update the question text
+      responseButtons.style.display = 'none'; // Hide buttons
+      confetti(); // Show confetti animation
+    });
+
+    // Hide saved response display entirely
+    window.localStorage.clear(); // Clear any saved responses for this interaction
   </script>
 </body>
 </html>
